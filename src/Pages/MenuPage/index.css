@@ -1,0 +1,13 @@
+.menu-container{
+    height: 400px;
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 28%);
+    padding: 15px;
+    max-width: 700px;
+    margin: 50px auto 0 auto;
+}
+
+
+.button-container{
+    margin: 30px auto 0 auto;
+
+}

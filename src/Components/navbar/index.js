@@ -12,6 +12,7 @@ class NavBar extends React.Component {
       navRefLinks: [
         { className: "login-button", text: "Login", link: "/login" },
         { className: "menu-button", text: "Menu", link: "/menu" },
+        { className: "cart-button", text: "Cart", link: "/cart"}
       ],
     };
   }
@@ -25,7 +26,7 @@ class NavBar extends React.Component {
 
     return (
       <Navbar expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand clasname="navbar-brand">Foodbox</Navbar.Brand>
+        <Navbar.Brand className="navbar-brand">Foodbox</Navbar.Brand>
         <Nav className="me-auto">{navLinksGroup}</Nav>
       </Navbar>
     );
