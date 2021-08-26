@@ -1,0 +1,47 @@
+.submit-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    margin: 50px auto 0 auto;
+    align-items:flex-start;
+  }
+    
+  .field2-container {
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 28%);
+    padding: 10px;
+    min-width: 420px;
+  }
+  
+  .login-button-group {
+    max-width: 350px;
+  }
+
+
+  .shipping-form{
+    display:flex;
+    flex-flow: row wrap;
+    max-width: 500px;
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 28%);
+    padding: 10px;
+  }
+
+  .billing-form{
+    display:flex;
+    flex-flow: row wrap;
+    max-width: 500px;
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 28%);
+    padding: 10px;
+  }
+
+  .address-heading{
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+
+  }
+
+  .billing-container{
+    margin-top: 30px;
+
+  }
+  

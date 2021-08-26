@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import MenuPage from "./Pages/MenuPage";
 import LoginPage from "./Pages/LoginPage";
 import CartPage from "./Pages/CartPage";
+import PaymentPage from './Pages/PaymentPage'
+import SubmitOrderPage from "./Pages/SubmitOrderPage";
 
 class App extends React.Component {
   constructor(props) {
@@ -61,6 +63,12 @@ class App extends React.Component {
             </Route>
             <Route path="/cart">
               <CartPage rows={rows} selectedItems={this.state.selectedItems} />
+            </Route>
+            <Route path="/payment">
+              <PaymentPage />
+            </Route>
+            <Route path="/submit-order">
+              <SubmitOrderPage />
             </Route>
           </Switch>
         </Router>

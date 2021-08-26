@@ -3,6 +3,7 @@ import "./index.css";
 import { Table, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { IconButton } from "@material-ui/core";
+import { Link } from 'react-router-dom';
 // import DeleteIcon from '@material-ui/icons/Delete'
 
 class CartPage extends React.Component {
@@ -141,7 +142,7 @@ class CartPage extends React.Component {
           <div className="cart-subtotal">Subtotal: {this.state.subtotal} </div>
           <div className="cart-tax">Tax: {this.state.tax} </div>
           <div className="cart-total">Total: {this.state.total} </div>
-          <Button className="checkout-button" variant="dark">Checkout</Button>
+          <Button as={Link} to="/payment" className="checkout-button" variant="dark">Checkout</Button>
         </div>
 
       </div>
