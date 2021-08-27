@@ -58,6 +58,8 @@ class CartPage extends React.Component {
     tempTax = tempSubtotal * this.state.taxRate
     tempTotal = tempSubtotal + tempTax
 
+    this.props.getTotalPrice(tempTotal)
+
     this.setState({
       ...this.state,
       total: tempTotal.toFixed(2),
@@ -76,7 +78,7 @@ class CartPage extends React.Component {
     console.log('removeItem')
     const target = event.target
     const id = target.name
-
+    this.props.removeItem(id)
     let tempArr = []
     const tempSelectedItems = this.state.selectedItemDetails
 
@@ -139,9 +141,9 @@ class CartPage extends React.Component {
           </Table>
         </div>
         <div className="cart-summary-container">
-          <div className="cart-subtotal">Subtotal: {this.state.subtotal} </div>
-          <div className="cart-tax">Tax: {this.state.tax} </div>
-          <div className="cart-total">Total: {this.state.total} </div>
+          <div className="cart-subtotal">Subtotal: ${this.state.subtotal} </div>
+          <div className="cart-tax">Tax: ${this.state.tax} </div>
+          <div className="cart-total">Total: ${this.state.total} </div>
           <Button as={Link} to="/payment" className="checkout-button" variant="dark">Checkout</Button>
         </div>
 

@@ -1,0 +1,35 @@
+.detail-item{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.detail-item > p {
+    margin-left: 30px;
+}
+
+.detail-item > h3 {
+    font-size: large;
+}
+
+.order-items{
+    min-width: 500px;
+    margin-top: 50px;
+}
+
+.order-items > h3{
+    margin-bottom: 15px;
+}
+
+.submit-order-page{
+    margin: 40px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order-details{
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 28%);
+    padding: 20px;
+    margin-top: 10px;
+}

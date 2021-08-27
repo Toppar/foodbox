@@ -3,6 +3,7 @@ import "./index.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { ButtonGroup } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -131,7 +132,10 @@ class LoginPage extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-          <Button variant="dark" type="submit" onClick={this.handleSubmit}>
+          {/* <Button as={Link} to="/menu" variant="dark" type="submit" onClick={this.handleSubmit}>
+            Login
+          </Button> */}
+          <Button as={Link} to="/menu" variant="dark" type="submit">
             Login
           </Button>
         </Form>
@@ -181,7 +185,10 @@ class LoginPage extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-          <Button variant="dark" type="submit" onClick={this.handleRegister}>
+          {/* <Button as={Link} to="/menu" variant="dark" type="submit" onClick={this.handleRegister}>
+            Register
+          </Button> */}
+          <Button as={Link} to="/menu" variant="dark" type="submit">
             Register
           </Button>
         </Form>
@@ -194,7 +201,7 @@ class LoginPage extends React.Component {
           className="login-button-group"
           aria-label="Login Register toggle"
         >
-          <Button variant="dark" name="login" onClick={this.handleToggle}>
+          <Button  variant="dark" name="login" onClick={this.handleToggle}>
             Login
           </Button>
           <Button variant="dark" name="register" onClick={this.handleToggle}>

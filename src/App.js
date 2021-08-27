@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import MenuPage from "./Pages/MenuPage";
 import LoginPage from "./Pages/LoginPage";
 import CartPage from "./Pages/CartPage";
-import PaymentPage from './Pages/PaymentPage'
+import PaymentPage from "./Pages/PaymentPage";
 import SubmitOrderPage from "./Pages/SubmitOrderPage";
 
 class App extends React.Component {
@@ -16,18 +16,48 @@ class App extends React.Component {
     this.state = {
       selectedItems: [],
       selectedItemLength: 0,
+      totalPrice: null,
+      shippingAddress: ""
     };
     this.handleMenuSelection = this.handleMenuSelection.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.getTotalPrice = this.getTotalPrice.bind(this);
+    this.getShippingAddress = this.getShippingAddress.bind(this);
   }
 
   handleMenuSelection(selection) {
-    console.log(selection);
-
     this.setState({
       ...this.state,
       selectedItems: selection,
       selectedItemLength: selection.length,
     });
+  }
+
+  removeItem(item) {
+    let tempArr = this.state.selectedItems;
+    for (let i = 0; i < this.state.selectedItems.length; i++) {
+      if (item == this.state.selectedItems[i]) {
+        tempArr.splice(i, 1);
+      }
+    }
+    this.setState({
+      ...this.state,
+      selectedItems: tempArr,
+    });
+  }
+
+  getTotalPrice(price) {
+    this.setState({
+      ...this.state,
+      totalPrice: price.toFixed(2),
+    });
+  }
+
+  getShippingAddress(address){
+    this.setState({
+      ...this.state,
+      shippingAddress: address
+    })
   }
 
   render() {
@@ -62,13 +92,23 @@ class App extends React.Component {
               <LoginPage />
             </Route>
             <Route path="/cart">
-              <CartPage rows={rows} selectedItems={this.state.selectedItems} />
+              <CartPage
+                rows={rows}
+                selectedItems={this.state.selectedItems}
+                removeItem={this.removeItem}
+                getTotalPrice={this.getTotalPrice}
+              />
             </Route>
             <Route path="/payment">
-              <PaymentPage />
+              <PaymentPage getShippingAddress={this.getShippingAddress} />
             </Route>
             <Route path="/submit-order">
-              <SubmitOrderPage />
+              <SubmitOrderPage
+                rows={rows}
+                selectedItems={this.state.selectedItems}
+                totalPrice={this.state.totalPrice}
+                shippingAddress={this.state.shippingAddress}
+              />
             </Route>
           </Switch>
         </Router>

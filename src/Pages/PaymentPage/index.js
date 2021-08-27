@@ -2,6 +2,7 @@ import React from "react";
 import "./index.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link } from 'react-router-dom';
 
 class PaymentPage extends React.Component {
   constructor(props) {
@@ -36,6 +37,10 @@ class PaymentPage extends React.Component {
     let target = event.target;
     let name = target.name;
     let value = target.value;
+
+    if (name === "shippingAddress"){
+      this.props.getShippingAddress(value)
+    }
 
     this.setState({
       ...this.state,
@@ -199,7 +204,7 @@ class PaymentPage extends React.Component {
           </div>
         </div>
         <div className="creditcard-container">{paymentForm}</div>
-        <Button variant="dark" type="submit" onClick={this.handleSubmit}>
+        <Button as={Link} to="/submit-order" variant="dark" type="submit" onClick={this.handleSubmit}>
           Submit order
         </Button>
       </div>
