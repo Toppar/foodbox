@@ -3,7 +3,7 @@ import "./index.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { ButtonGroup } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class LoginPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log("button pressed");
 
     const body = {
       email: this.state.email,
@@ -43,51 +44,37 @@ class LoginPage extends React.Component {
     };
 
     const data = JSON.stringify(body);
-
-    //API Call to back-end
-    console.log("Submitted Login");
-    //let result = fetch data response from backend
-    let result = true;
-    if (result) {
-      this.setState({
-        ...this.state,
-        isLoggedIn: true,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        isLoggedIn: false,
-      });
-    }
+    this.props.checkAuth(data);
   }
 
   handleRegister(event) {
     event.preventDefault();
+    console.log("button pressed");
 
     const body = {
       email: this.state.email,
       password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+      first_name: this.state.firstName,
+      last_name: this.state.lastName,
     };
 
     const data = JSON.stringify(body);
-
-    //API Call to back-end
-    console.log("Submitted Registration");
-    //let result = fetch data response from backend
-    let result = true;
-    if (result) {
-      this.setState({
-        ...this.state,
-        isLoggedIn: true,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        isLoggedIn: false,
-      });
-    }
+    this.props.addUser(data);
+    // //API Call to back-end
+    // console.log("Submitted Registration");
+    // //let result = fetch data response from backend
+    // let result = true;
+    // if (result) {
+    //   this.setState({
+    //     ...this.state,
+    //     isLoggedIn: true,
+    //   });
+    // } else {
+    //   this.setState({
+    //     ...this.state,
+    //     isLoggedIn: false,
+    //   });
+    // }
   }
 
   handleToggle(event) {
@@ -135,7 +122,7 @@ class LoginPage extends React.Component {
           {/* <Button as={Link} to="/menu" variant="dark" type="submit" onClick={this.handleSubmit}>
             Login
           </Button> */}
-          <Button as={Link} to="/menu" variant="dark" type="submit">
+          <Button onClick={this.handleSubmit} variant="dark">
             Login
           </Button>
         </Form>
@@ -188,7 +175,7 @@ class LoginPage extends React.Component {
           {/* <Button as={Link} to="/menu" variant="dark" type="submit" onClick={this.handleRegister}>
             Register
           </Button> */}
-          <Button as={Link} to="/menu" variant="dark" type="submit">
+          <Button onClick={this.handleRegister} variant="dark" >
             Register
           </Button>
         </Form>
@@ -201,7 +188,7 @@ class LoginPage extends React.Component {
           className="login-button-group"
           aria-label="Login Register toggle"
         >
-          <Button  variant="dark" name="login" onClick={this.handleToggle}>
+          <Button variant="dark" name="login" onClick={this.handleToggle}>
             Login
           </Button>
           <Button variant="dark" name="register" onClick={this.handleToggle}>

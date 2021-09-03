@@ -4,11 +4,17 @@ import { DataGrid } from "@material-ui/data-grid";
 import Button from "react-bootstrap/Button";
 import { Link } from 'react-router-dom';
 
-
 class MenuPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      menu:this.props.rows
+    };
+    
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ menu: nextProps.rows });  
   }
 
   render() {
@@ -40,7 +46,7 @@ class MenuPage extends React.Component {
     return (
       <div className="menu-container">
         <DataGrid
-          rows={this.props.rows}
+          rows={this.state.menu}
           columns={columns}
           pageSize={5}
           checkboxSelection

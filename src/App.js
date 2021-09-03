@@ -1,14 +1,20 @@
 import React from "react";
 import "./App.css";
-import HomePage from "./Pages/Home";
 import Navbar from "./Components/navbar/index.js";
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
 import MenuPage from "./Pages/MenuPage";
 import LoginPage from "./Pages/LoginPage";
 import CartPage from "./Pages/CartPage";
 import PaymentPage from "./Pages/PaymentPage";
 import SubmitOrderPage from "./Pages/SubmitOrderPage";
+import AdminPage from "./Pages/AdminPage";
 
 class App extends React.Component {
   constructor(props) {
@@ -17,12 +23,77 @@ class App extends React.Component {
       selectedItems: [],
       selectedItemLength: 0,
       totalPrice: null,
-      shippingAddress: ""
+      shippingAddress: "",
+      menu: [],
+      isAuthenticated: false,
+      // history: useHistory(),
     };
     this.handleMenuSelection = this.handleMenuSelection.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.getTotalPrice = this.getTotalPrice.bind(this);
     this.getShippingAddress = this.getShippingAddress.bind(this);
+    this.getMenu = this.getMenu.bind(this);
+    this.checkAuth = this.checkAuth.bind(this);
+    this.addUser = this.addUser.bind(this);
+  }
+
+  getMenu = async () => {
+    const response = await fetch("http://localhost:8080/get_menu", {
+      method: "GET",
+    });
+    const responseJSON = await response.json();
+    console.log(responseJSON);
+    this.setState({
+      ...this.state,
+      menu: responseJSON,
+    });
+    console.log(this.state.menu);
+  };
+
+  async checkAuth(myData) {
+    // const body = {
+    //   email: "toppar@gmail.com",
+    //   password: "mypassword100",
+    // };
+    // const data = JSON.stringify(body);
+    const response = await fetch("http://localhost:8080/check_password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+      body: myData,
+    });
+    const responseValue = await response.json();
+    console.log(responseValue);
+    if (responseValue) {
+      this.setState({
+        ...this.state,
+        isAuthenticated: responseValue,
+      });
+    }
+
+    if (this.state.isAuthenticated) {
+      // this.props.history.push("/menu");
+      // return <Redirect to={"/menu"}/>
+      window.location.href = "/menu";
+    }
+  }
+
+  async addUser(myData) {
+    const response = await fetch("http://localhost:8080/add_user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+      body: myData,
+    });
+    const responseValue = await response.json();
+    console.log(responseValue);
+    if (responseValue) {
+      window.location.href = "/login";
+    }
   }
 
   handleMenuSelection(selection) {
@@ -53,26 +124,30 @@ class App extends React.Component {
     });
   }
 
-  getShippingAddress(address){
+  getShippingAddress(address) {
     this.setState({
       ...this.state,
-      shippingAddress: address
-    })
+      shippingAddress: address,
+    });
+  }
+
+  componentDidMount() {
+    this.getMenu();
   }
 
   render() {
-    const rows = [
-      { id: 1, dish: "Kung Pao Chicken", cuisine: "Chinese", price: 13 },
-      { id: 2, dish: "Spaghetti Di Mare", cuisine: "Italian", price: 15 },
-      { id: 3, dish: "Tandoori Chicken", cuisine: "India", price: 14 },
-      { id: 4, dish: "Tempura", cuisine: "Japanese", price: 9 },
-      { id: 5, dish: "Mahshi", cuisine: "Syrian", price: 12 },
-      { id: 6, dish: "Pad Kra Prao", cuisine: "Thai", price: 12 },
-      { id: 7, dish: "Cassoulet", cuisine: "French", price: 14 },
-      { id: 8, dish: "Tamales", cuisine: "Mexican", price: 9 },
-      { id: 9, dish: "Currywurst", cuisine: "German", price: 15 },
-      { id: 10, dish: "Chicons au gratin", cuisine: "Belgium", price: 12 },
-    ];
+    // const rows = [
+    //   { id: 1, dish: "Kung Pao Chicken", cuisine: "Chinese", price: 13 },
+    //   // { id: 2, dish: "Spaghetti Di Mare", cuisine: "Italian", price: 15 },
+    //   // { id: 3, dish: "Tandoori Chicken", cuisine: "India", price: 14 },
+    //   // { id: 4, dish: "Tempura", cuisine: "Japanese", price: 9 },
+    //   // { id: 5, dish: "Mahshi", cuisine: "Syrian", price: 12 },
+    //   // { id: 6, dish: "Pad Kra Prao", cuisine: "Thai", price: 12 },
+    //   // { id: 7, dish: "Cassoulet", cuisine: "French", price: 14 },
+    //   // { id: 8, dish: "Tamales", cuisine: "Mexican", price: 9 },
+    //   // { id: 9, dish: "Currywurst", cuisine: "German", price: 15 },
+    //   // { id: 10, dish: "Chicons au gratin", cuisine: "Belgium", price: 12 },
+    // ];
 
     return (
       <div className="App">
@@ -80,20 +155,20 @@ class App extends React.Component {
           <Navbar />
           <Switch>
             <Route exact path="/">
-              <LoginPage />
+              <LoginPage checkAuth={this.checkAuth} addUser={this.addUser} />
             </Route>
             <Route path="/menu">
               <MenuPage
                 handleSelection={this.handleMenuSelection}
-                rows={rows}
+                rows={this.state.menu}
               />
             </Route>
             <Route path="/login">
-              <LoginPage />
+              <LoginPage checkAuth={this.checkAuth} addUser={this.addUser} />
             </Route>
             <Route path="/cart">
               <CartPage
-                rows={rows}
+                rows={this.state.menu}
                 selectedItems={this.state.selectedItems}
                 removeItem={this.removeItem}
                 getTotalPrice={this.getTotalPrice}
@@ -104,11 +179,14 @@ class App extends React.Component {
             </Route>
             <Route path="/submit-order">
               <SubmitOrderPage
-                rows={rows}
+                rows={this.state.menu}
                 selectedItems={this.state.selectedItems}
                 totalPrice={this.state.totalPrice}
                 shippingAddress={this.state.shippingAddress}
               />
+            </Route>
+            <Route path="/admin">
+              <AdminPage />
             </Route>
           </Switch>
         </Router>
