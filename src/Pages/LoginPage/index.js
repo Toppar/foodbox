@@ -3,7 +3,6 @@ import "./index.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { ButtonGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -60,21 +59,6 @@ class LoginPage extends React.Component {
 
     const data = JSON.stringify(body);
     this.props.addUser(data);
-    // //API Call to back-end
-    // console.log("Submitted Registration");
-    // //let result = fetch data response from backend
-    // let result = true;
-    // if (result) {
-    //   this.setState({
-    //     ...this.state,
-    //     isLoggedIn: true,
-    //   });
-    // } else {
-    //   this.setState({
-    //     ...this.state,
-    //     isLoggedIn: false,
-    //   });
-    // }
   }
 
   handleToggle(event) {
@@ -119,9 +103,6 @@ class LoginPage extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-          {/* <Button as={Link} to="/menu" variant="dark" type="submit" onClick={this.handleSubmit}>
-            Login
-          </Button> */}
           <Button onClick={this.handleSubmit} variant="dark">
             Login
           </Button>
@@ -172,9 +153,6 @@ class LoginPage extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-          {/* <Button as={Link} to="/menu" variant="dark" type="submit" onClick={this.handleRegister}>
-            Register
-          </Button> */}
           <Button onClick={this.handleRegister} variant="dark" >
             Register
           </Button>

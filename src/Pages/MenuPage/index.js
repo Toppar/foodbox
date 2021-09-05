@@ -41,8 +41,6 @@ class MenuPage extends React.Component {
       },
     ];
 
-
-
     return (
       <div className="menu-container">
         <DataGrid

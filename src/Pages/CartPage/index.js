@@ -2,9 +2,7 @@ import React from "react";
 import "./index.css";
 import { Table, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { IconButton } from "@material-ui/core";
 import { Link } from 'react-router-dom';
-// import DeleteIcon from '@material-ui/icons/Delete'
 
 class CartPage extends React.Component {
   constructor(props) {

@@ -5,16 +5,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useHistory,
-  Redirect,
 } from "react-router-dom";
 import MenuPage from "./Pages/MenuPage";
 import LoginPage from "./Pages/LoginPage";
 import CartPage from "./Pages/CartPage";
 import PaymentPage from "./Pages/PaymentPage";
 import SubmitOrderPage from "./Pages/SubmitOrderPage";
-import AdminPage from "./Pages/AdminPage";
+import AdminLoginPage from "./Pages/AdminLoginPage";
+import AdminPortalPage from "./Pages/AdminPortalPage";
 
 class App extends React.Component {
   constructor(props) {
@@ -26,8 +24,8 @@ class App extends React.Component {
       shippingAddress: "",
       menu: [],
       isAuthenticated: false,
-      // history: useHistory(),
     };
+
     this.handleMenuSelection = this.handleMenuSelection.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.getTotalPrice = this.getTotalPrice.bind(this);
@@ -35,6 +33,9 @@ class App extends React.Component {
     this.getMenu = this.getMenu.bind(this);
     this.checkAuth = this.checkAuth.bind(this);
     this.addUser = this.addUser.bind(this);
+    this.changePrice = this.changePrice.bind(this);
+    this.checkAdmin = this.checkAdmin.bind(this);
+    this.changeDish = this.changeDish.bind(this);
   }
 
   getMenu = async () => {
@@ -51,11 +52,6 @@ class App extends React.Component {
   };
 
   async checkAuth(myData) {
-    // const body = {
-    //   email: "toppar@gmail.com",
-    //   password: "mypassword100",
-    // };
-    // const data = JSON.stringify(body);
     const response = await fetch("http://localhost:8080/check_password", {
       method: "POST",
       headers: {
@@ -74,8 +70,6 @@ class App extends React.Component {
     }
 
     if (this.state.isAuthenticated) {
-      // this.props.history.push("/menu");
-      // return <Redirect to={"/menu"}/>
       window.location.href = "/menu";
     }
   }
@@ -95,6 +89,63 @@ class App extends React.Component {
       window.location.href = "/login";
     }
   }
+
+  async checkAdmin(myData) {
+    const response = await fetch("http://localhost:8080/check_admin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+      body: myData,
+    });
+    const responseValue = await response.json();
+    console.log(responseValue);
+    if (responseValue) {
+      this.setState({
+        ...this.state,
+        isAuthenticated: responseValue,
+      });
+    }
+
+    if (this.state.isAuthenticated) {
+      window.location.href = "/adminportal";
+    }
+  }
+
+  async changePrice(myData) {
+    const response = await fetch("http://localhost:8080/change_price", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+      body: myData,
+    });
+    const responseValue = await response.json();
+    console.log(responseValue);
+    if (responseValue) {
+      window.location.href = "/menu";
+    }
+  }
+
+async changeDish(myData) {
+  const response = await fetch("http://localhost:8080/change_dish", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+    },
+    body: myData,
+  });
+  const responseValue = await response.json();
+  console.log(responseValue);
+  if (responseValue) {
+    window.location.href = "/menu";
+  }
+}
+
+
 
   handleMenuSelection(selection) {
     this.setState({
@@ -136,6 +187,7 @@ class App extends React.Component {
   }
 
   render() {
+    
     // const rows = [
     //   { id: 1, dish: "Kung Pao Chicken", cuisine: "Chinese", price: 13 },
     //   // { id: 2, dish: "Spaghetti Di Mare", cuisine: "Italian", price: 15 },
@@ -185,12 +237,14 @@ class App extends React.Component {
                 shippingAddress={this.state.shippingAddress}
               />
             </Route>
-            <Route path="/admin">
-              <AdminPage />
+            <Route path="/adminlogin">
+              <AdminLoginPage checkAdmin={this.checkAdmin} rows={this.state.menu} />
+            </Route>
+            <Route path="/adminportal">
+              <AdminPortalPage changePrice={this.changePrice} changeDish={this.changeDish} rows={this.state.menu} />
             </Route>
           </Switch>
         </Router>
-        {/* <HomePage /> */}
       </div>
     );
   }

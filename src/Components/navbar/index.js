@@ -1,9 +1,8 @@
 import React from "react";
 import "./index.css";
-import foodboxlogo from "../../foodboxlogo.png";
 import { Navbar, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -12,7 +11,8 @@ class NavBar extends React.Component {
       navRefLinks: [
         { className: "login-button", text: "Login", link: "/login" },
         { className: "menu-button", text: "Menu", link: "/menu" },
-        { className: "cart-button", text: "Cart", link: "/cart"}
+        { className: "cart-button", text: "Cart", link: "/cart" },
+        { className: "admin-button", text: "Admin", link: "/adminlogin" },
       ],
     };
   }
@@ -20,7 +20,9 @@ class NavBar extends React.Component {
   render() {
     let navLinksGroup = this.state.navRefLinks.map((x) => (
       <Nav.Item>
-        <Nav.Link as={Link} to={x.link} className={x.className}>{x.text}</Nav.Link>
+        <Nav.Link as={Link} to={x.link} className={x.className}>
+          {x.text}
+        </Nav.Link>
       </Nav.Item>
     ));
 
